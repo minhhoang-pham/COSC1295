@@ -14,14 +14,17 @@ public class CourseList {
     }
 
     private void ImportCourses(){
-        String fileName = "course.csv";
-        String dir = ".";
-        
-        try (BufferedReader br = new BufferedReader(new FileReader(new File(dir, fileName)))) {
+        File courseFile = new File("../csv/course.csv");
+        if (!courseFile.isFile()) {
+            courseFile = new File("csv/course.csv");
+        }
+
+        try (BufferedReader br = new BufferedReader(new FileReader(courseFile))) {
             // Read and discard the header row
             String headerLine = br.readLine(); 
             String line;
             while ((line = br.readLine()) != null) {
+                System.out.println(line); // debug
                 String[] data = line.split(",");
                 this.courses.add(new Course(
                     data[0], 

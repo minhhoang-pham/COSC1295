@@ -1,0 +1,6 @@
+{
+  "code-runner.fileDirectoryAsCwd": false,
+  "code-runner.executorMap": {
+    "java": "cd $dir && mkdir -p ../bin && javac -d ../bin *.java && java -cp ../bin $fileNameWithoutExt"
+  }
+}
