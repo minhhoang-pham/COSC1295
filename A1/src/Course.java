@@ -1,7 +1,7 @@
 
 public class Course {
     private String courseName;
-    private int capacity;
+    private String capacity;
     private String year;
     private String deliveryMode;
     private String dayOfLecture;
@@ -10,7 +10,7 @@ public class Course {
 
     public Course(
         String courseName,
-        int capacity,
+        String capacity,
         String year,
         String deliveryMode,
         String dayOfLecture,
