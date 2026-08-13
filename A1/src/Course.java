@@ -25,4 +25,8 @@ public class Course {
         this.timeOfLecture = timeOfLecture;
         this.durationOfLecture = durationOfLecture;
     }
+
+    public String getCourseName() {
+        return this.courseName;
+    }
 }

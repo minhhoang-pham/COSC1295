@@ -24,7 +24,7 @@ public class CourseList {
             String headerLine = br.readLine(); 
             String line;
             while ((line = br.readLine()) != null) {
-                System.out.println(line); // debug
+                // System.out.println(line); // debug
                 String[] data = line.split(",");
                 this.courses.add(new Course(
                     data[0], 
@@ -39,5 +39,15 @@ public class CourseList {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public List<Course> courseSearch(String search) {
+        List<Course> searchResults = new ArrayList<>();
+        for (Course course : this.courses) {
+            if (course.getCourseName().toLowerCase().contains(search.toLowerCase())) {
+                searchResults.add(course);
+            }
+        }
+        return searchResults;
     }
 }
