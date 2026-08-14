@@ -29,4 +29,16 @@ public class Course {
     public String getCourseName() {
         return this.courseName;
     }
+
+    public String getDeliveryMode() {
+        return this.deliveryMode;
+    }
+
+    public String getDayOfLecture() {
+        return this.dayOfLecture;
+    }
+
+    public String getTimeOfLecture() {
+        return this.timeOfLecture;
+    }
 }

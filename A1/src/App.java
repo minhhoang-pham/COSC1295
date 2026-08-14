@@ -1,5 +1,6 @@
 import java.util.List;
 import java.util.Scanner;
+import java.util.Set;
 
 public class App {
     public static void main(String[] args) {
@@ -11,12 +12,22 @@ public class App {
         System.out.println("Welcome to MyTimetable!");
         menuSelection = mainMenu(scanner);
 
-        switch (menuSelection) {
-            case 1:
-                courseSearch(scanner, student1, courseList);
-                break;
-            default:
-                throw new AssertionError();
+        while (true) {
+            switch (menuSelection) {
+                case 1:
+                    courseSearch(scanner, student1, courseList);
+                    menuSelection = mainMenu(scanner);
+                    break;
+                case 2:
+                    printCourses(student1);
+                    menuSelection = mainMenu(scanner);
+                    break;
+                case 0:
+                    return;
+                default:
+                    menuSelection = mainMenu(scanner);
+                    break;
+            }
         }
 
     }
@@ -40,23 +51,47 @@ public class App {
         String searchInput = scanner.next();
 
         List<Course> searchResult = courseList.courseSearch(searchInput);
-        int optionNumber = 1;
+        int listNumber = 1;
         System.out.println("-------------------------------------");
         System.out.println("> Select from list");
         System.out.println("-------------------------------------");
         for (Course course : searchResult) {
-            System.out.print(optionNumber + ") " + course.getCourseName() + "\n");
-            optionNumber += 1;
+            System.out.print(listNumber + ") " + course.getCourseName() + "\n");
+            listNumber += 1;
         }
-        optionNumber = 1;
-        Course selectedCourse = searchResult.get(optionNumber - 1);
-
+        
         System.out.print("Please select: ");
         int menuSelection = scanner.nextInt();
+        Course selectedCourse = searchResult.get(menuSelection - 1);
+
         System.out.println("You have enrolled in " + selectedCourse.getCourseName());
 
         student.enrol(selectedCourse);
 
         return menuSelection;
+    }
+
+    private static void printCourses(Student student) {
+        Set<Course> enrolledCourses = student.getEnrolledCourses();
+
+        if (enrolledCourses.isEmpty()) {
+            System.out.println("You don't have any courses enrolled.");
+        } else {
+            System.out.println("-------------------------------------");
+            System.out.println("You are enrolled in the following course(s):");
+            System.out.println("-------------------------------------");
+
+            int listNumber = 1;
+            for (Course course : enrolledCourses) {
+                System.out.println(
+                    listNumber + ")" + 
+                    course.getCourseName() + "\t" +
+                    course.getDeliveryMode() + "\t" +
+                    course.getDayOfLecture() + "\t" +
+                    course.getTimeOfLecture()
+                );
+                listNumber += 1;
+            }
+        }
     }
 }
