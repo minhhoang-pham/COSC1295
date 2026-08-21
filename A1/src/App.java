@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
@@ -19,12 +20,17 @@ public class App {
                     menuSelection = mainMenu(scanner);
                     break;
                 case 2:
-                    printCourses(student1);
+                    printCourses(student1, "show");
+                    menuSelection = mainMenu(scanner);
+                    break;
+                case 3:
+                    withdrawCourse(scanner, student1);
                     menuSelection = mainMenu(scanner);
                     break;
                 case 0:
                     return;
                 default:
+                    System.out.println("Invalid selection");
                     menuSelection = mainMenu(scanner);
                     break;
             }
@@ -62,23 +68,34 @@ public class App {
         
         System.out.print("Please select: ");
         int menuSelection = scanner.nextInt();
-        Course selectedCourse = searchResult.get(menuSelection - 1);
-
-        System.out.println("You have enrolled in " + selectedCourse.getCourseName());
-
-        student.enrol(selectedCourse);
-
+        int selectedCourseIndex = menuSelection - 1;
+        
+        if ((selectedCourseIndex < 0) || (selectedCourseIndex > searchResult.size() - 1)) {
+            System.out.println("Invalid selection");
+        } else {
+            Course selectedCourse = searchResult.get(selectedCourseIndex);
+            if (student.enrol(selectedCourse)) {
+                System.out.println("You have enrolled in " + selectedCourse.getCourseName());
+            } else {
+                System.out.println("You are already enrolled in this course");
+            }
+        }
+   
         return menuSelection;
     }
 
-    private static void printCourses(Student student) {
+    private static void printCourses(Student student, String type) {
         Set<Course> enrolledCourses = student.getEnrolledCourses();
 
         if (enrolledCourses.isEmpty()) {
             System.out.println("You don't have any courses enrolled.");
         } else {
             System.out.println("-------------------------------------");
-            System.out.println("You are enrolled in the following course(s):");
+            if ("show".equals(type)) {
+                System.out.println("You are enrolled in the following course(s):");
+            } else if ("withdraw".equals(type)) {
+                System.out.println("Please choose a course to withdraw:");
+            }
             System.out.println("-------------------------------------");
 
             int listNumber = 1;
@@ -93,5 +110,27 @@ public class App {
                 listNumber += 1;
             }
         }
+    }
+
+    private static int withdrawCourse(Scanner scanner, Student student) {
+        // Convert to list for accessing elements
+        List<Course> enrolledCourses = new ArrayList<>(student.getEnrolledCourses());
+
+        printCourses(student, "withdraw");
+
+        System.out.print("Please select: ");
+        int menuSelection = scanner.nextInt();
+        int selectedCourseIndex = menuSelection - 1;
+
+        if ((selectedCourseIndex < 0) || (selectedCourseIndex > enrolledCourses.size() - 1)) {
+            System.out.println("Invalid selection");
+        } else {
+            Course selectedCourse = enrolledCourses.get(selectedCourseIndex);
+            if (student.withdraw(selectedCourse)) {
+                System.out.println("You have withdrawn from " + selectedCourse.getCourseName());
+            }
+        }
+   
+        return menuSelection;
     }
 }

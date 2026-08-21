@@ -10,8 +10,12 @@ public class Student {
         this.name = name;
     }
 
-    public void enrol(Course course) {
-        this.enrolledCourses.add(course);
+    public boolean enrol(Course course) {
+        return this.enrolledCourses.add(course);
+    }
+
+    public boolean withdraw(Course course) {
+        return this.enrolledCourses.remove(course);
     }
 
     public Set<Course> getEnrolledCourses() {
