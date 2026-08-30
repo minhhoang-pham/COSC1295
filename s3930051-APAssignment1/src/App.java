@@ -57,6 +57,11 @@ public class App {
         String searchInput = scanner.next();
 
         List<Course> searchResult = courseList.courseSearch(searchInput);
+        if (searchResult.isEmpty()) {
+            System.out.println("No valid results");
+            return 0;
+        }
+
         int listNumber = 1;
         System.out.println("-------------------------------------");
         System.out.println("> Select from list");
@@ -101,7 +106,7 @@ public class App {
             int listNumber = 1;
             for (Course course : enrolledCourses) {
                 System.out.println(
-                    listNumber + ")" + 
+                    listNumber + ") " + 
                     course.getCourseName() + "\t" +
                     course.getDeliveryMode() + "\t" +
                     course.getDayOfLecture() + "\t" +
