@@ -57,11 +57,13 @@ public class App {
         String searchInput = scanner.next();
 
         List<Course> searchResult = courseList.courseSearch(searchInput);
+        // Exit if there are no valid results
         if (searchResult.isEmpty()) {
             System.out.println("No valid results");
             return 0;
         }
 
+        // Output header
         int listNumber = 1;
         System.out.println("-------------------------------------");
         System.out.println("> Select from list");
@@ -75,6 +77,7 @@ public class App {
         int menuSelection = scanner.nextInt();
         int selectedCourseIndex = menuSelection - 1;
         
+        // Check if student is already enrolled, if not then enrol
         if ((selectedCourseIndex < 0) || (selectedCourseIndex > searchResult.size() - 1)) {
             System.out.println("Invalid selection");
         } else {
@@ -92,6 +95,7 @@ public class App {
     private static void printCourses(Student student, String type) {
         Set<Course> enrolledCourses = student.getEnrolledCourses();
 
+        // Adapt based on if the student is viewing a course normally or withdrawing
         if (enrolledCourses.isEmpty()) {
             System.out.println("You don't have any courses enrolled.");
         } else {
@@ -103,6 +107,7 @@ public class App {
             }
             System.out.println("-------------------------------------");
 
+            // Outputs the relevant information
             int listNumber = 1;
             for (Course course : enrolledCourses) {
                 System.out.println(
@@ -127,6 +132,7 @@ public class App {
         int menuSelection = scanner.nextInt();
         int selectedCourseIndex = menuSelection - 1;
 
+        // Withdraw confirm message
         if ((selectedCourseIndex < 0) || (selectedCourseIndex > enrolledCourses.size() - 1)) {
             System.out.println("Invalid selection");
         } else {
